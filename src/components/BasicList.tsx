@@ -2,50 +2,42 @@ import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-import InboxIcon from "@mui/icons-material/Inbox";
-import DraftsIcon from "@mui/icons-material/Drafts"
+import { MouseEvent, useState } from "react";
 
-export default function BasicList() {
+interface Props {
+  items : string[];
+  heading : string;
+  onSelectItem: (item : string) => void;
+}
+
+export default function BasicList({items, heading, onSelectItem} : Props) {
+
+  //Hook
+  const [selectedIndex, setSelectedIndex] = useState(-1)
+
+  const handleClick = (event : MouseEvent) => console.log(event)
+
   return (
+    <>
+    { items.length === 0 && <p> No items found </p> }
     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       <nav aria-label="main mailbox folders">
         <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <DraftsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Drafts"/>
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </nav>
-      <Divider />
-      <nav aria-label="secondary mailbox folders">
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary="Trash" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
-              <ListItemText primary="Spam" />
-            </ListItemButton>
-          </ListItem>
+          { items.map((item, index) => 
+            <ListItem key={item} disablePadding>
+              <ListItemButton onClick={() => {
+                setSelectedIndex(index);
+                onSelectItem(item);
+              }} selected={selectedIndex === index}>
+                <ListItemText sx={{ color : 'success.main'}}>{item}</ListItemText>
+              </ListItemButton>
+            </ListItem>
+            )
+          }
         </List>
       </nav>
     </Box>
+    </>
   );
 }
