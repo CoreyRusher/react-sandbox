@@ -3,6 +3,7 @@ import Message from './components/Message'
 import AlertTest from './components/Alert'
 import ButtonExample from './components/ButtonExample';
 import { useState } from "react";
+import AppLayout from './components/AppLayout';
 
 function App() {
 const [isClicked, setIsClicked] = useState(false)
@@ -22,10 +23,7 @@ const [isClicked, setIsClicked] = useState(false)
   
   return (
   <>
-    {isClicked && <AlertTest severity='warning' parentCallback={handleCallback}>Hello World</AlertTest>}
-    <div><Message /></div>
-    <div><BasicList items = {items} heading={heading} onSelectItem={handleSelectItem}/></div>
-    <ButtonExample text='Click Me' onClickedEvent={handleButtonClick} color='error' disabled={isClicked}></ButtonExample>
+    <AppLayout />
   </>
   )
 }
